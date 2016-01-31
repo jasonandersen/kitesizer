@@ -1,5 +1,8 @@
 package com.palarran.kitesizer.cucumber;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 
@@ -8,8 +11,11 @@ import cucumber.api.java.en.Given;
  */
 public class KiteSizeSteps {
 
-    @Given("^I weigh (\\d+) pounds$")
-    public void iWeighPounds(int weight) {
+    private static Logger log = LoggerFactory.getLogger(KiteSizeSteps.class);
+
+    @Given("^I weigh (-?\\d+\\.?\\d+?) pounds$")
+    public void iWeighPounds(double weight) {
+        log.debug("Step definition: Given I weigh {} pounds.", weight);
         throw new PendingException();
     }
 
