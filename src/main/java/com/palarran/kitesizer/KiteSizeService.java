@@ -36,22 +36,12 @@ public class KiteSizeService {
      */
     protected List<KiteSizeRecommendation> findWeightRange(double weight) {
 
-        ArrayList<KiteSizeRecommendation> recommendations = new ArrayList<KiteSizeRecommendation>();
+        /*
+         * 1. Fetch all 144 KiteSizeRecommendations
+         * 2. Find all KiteSizeRecommendations in the user's weight range
+         * 3. Return just the KiteSizeRecommendations for the user's weight range
+         */
 
-        recommendations.add(new KiteSizeRecommendation(3, 34, 28));
-        recommendations.add(new KiteSizeRecommendation(3, 28, 24));
-        recommendations.add(new KiteSizeRecommendation(4, 24, 21));
-        recommendations.add(new KiteSizeRecommendation(4, 21, 19));
-        recommendations.add(new KiteSizeRecommendation(5, 19, 17));
-        recommendations.add(new KiteSizeRecommendation(6, 17, 15));
-        recommendations.add(new KiteSizeRecommendation(6, 15, 14));
-        recommendations.add(new KiteSizeRecommendation(7, 14, 13));
-        recommendations.add(new KiteSizeRecommendation(7, 13, 12));
-        recommendations.add(new KiteSizeRecommendation(8, 12, 11));
-        recommendations.add(new KiteSizeRecommendation(8, 11, 10));
-        recommendations.add(new KiteSizeRecommendation(9, 10, 8));
-
-        return recommendations;
     }
 
     /**
