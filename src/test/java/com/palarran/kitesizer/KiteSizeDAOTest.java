@@ -12,7 +12,6 @@ import org.junit.Test;
 /**
  * Testing the {@link KiteSizeDAO} class.
  */
-
 public class KiteSizeDAOTest {
 
     private KiteSizeDAO dao = new KiteSizeDAO();
@@ -33,6 +32,28 @@ public class KiteSizeDAOTest {
         assertEquals(110, first.getUpperWeight());
         assertEquals(28, first.getLowerWindSpeed());
         assertEquals(34, first.getUpperWindSpeed());
+    }
+
+    @Test
+    public void testSecondRecommendation() {
+        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
+        KiteSizeRecommendation second = allRecs.get(1);
+        assertEquals(3, second.getKiteSize());
+        assertEquals(95, second.getLowerWeight());
+        assertEquals(110, second.getUpperWeight());
+        assertEquals(24, second.getLowerWindSpeed());
+        assertEquals(28, second.getUpperWindSpeed());
+    }
+
+    @Test
+    public void testLastRecommendation() {
+        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
+        KiteSizeRecommendation last = allRecs.get(143);
+        assertEquals(24, last.getKiteSize());
+        assertEquals(260, last.getLowerWeight());
+        assertEquals(Integer.MAX_VALUE, last.getUpperWeight());
+        assertEquals(10, last.getUpperWindSpeed());
+        assertEquals(8, last.getLowerWindSpeed());
     }
 
     @Test

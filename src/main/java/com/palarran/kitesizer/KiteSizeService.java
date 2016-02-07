@@ -56,7 +56,7 @@ public class KiteSizeService {
                 return recommendation;
             }
         }
-        return new KiteSizeRecommendation(999, 999, 999);
+        return new KiteSizeRecommendation(999, 999, 999, 999, 999);
     }
 
 }
