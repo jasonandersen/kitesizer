@@ -41,6 +41,7 @@ public class KiteSizeService {
          * 2. Find all KiteSizeRecommendations in the user's weight range
          * 3. Return just the KiteSizeRecommendations for the user's weight range
          */
+        return null;
 
     }
 
@@ -50,19 +51,11 @@ public class KiteSizeService {
      * @return a single recommendation based on wind range
      */
     protected KiteSizeRecommendation findWindRange(int windSpeed, List<KiteSizeRecommendation> recommendations) {
-
-        /*
-         * loop through each recommendation in recommendations
-         * if windSpeed argument matches recommendation wind speed
-         *      return that recommendation
-         */
-
         for (KiteSizeRecommendation recommendation : recommendations) {
             if (windSpeed <= recommendation.getUpperWindSpeed() && windSpeed > recommendation.getLowerWindSpeed()) {
                 return recommendation;
             }
         }
-
         return new KiteSizeRecommendation(999, 999, 999);
     }
 

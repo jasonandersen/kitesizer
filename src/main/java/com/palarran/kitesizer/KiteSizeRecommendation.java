@@ -5,17 +5,21 @@ package com.palarran.kitesizer;
  */
 public class KiteSizeRecommendation {
 
-    private int size = 0;
-    private int upperSpeed = 0;
-    private int lowerSpeed = 0;
+    private final int kiteSize;
+    private final int upperSpeed;
+    private final int lowerSpeed;
+    private final int lowerWeight;
+    private final int upperWeight;
 
     /**
-     * @param i
+     * Constructor.
      */
-    public KiteSizeRecommendation(int size, int upperSpeed, int lowerSpeed) {
-        this.size = size;
+    public KiteSizeRecommendation(int kiteSize, int upperSpeed, int lowerSpeed, int upperWeight, int lowerWeight) {
+        this.kiteSize = kiteSize;
         this.upperSpeed = upperSpeed;
         this.lowerSpeed = lowerSpeed;
+        this.upperWeight = upperWeight;
+        this.lowerWeight = lowerWeight;
     }
 
     /**
@@ -23,18 +27,35 @@ public class KiteSizeRecommendation {
      * the kite is in square meters.
      */
     public int getKiteSize() {
-        return size;
+        return kiteSize;
     }
 
     /**
-     * @return windspeed value in Knots
+     * @return upper wind speed boundary in knots
      */
     public int getUpperWindSpeed() {
         return upperSpeed;
     }
 
+    /**
+     * @return lower wind speed boundary in knots
+     */
     public int getLowerWindSpeed() {
         return lowerSpeed;
+    }
+
+    /**
+     * @return lower weight boundary in pounds
+     */
+    public int getLowerWeight() {
+        return lowerWeight;
+    }
+
+    /**
+     * @return upper weight boundary in pounds
+     */
+    public int getUpperWeight() {
+        return upperWeight;
     }
 
 }

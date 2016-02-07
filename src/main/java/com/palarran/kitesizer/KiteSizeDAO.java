@@ -14,37 +14,46 @@ public class KiteSizeDAO {
 
     private static final String CHART_PATH = "/Users/jason/dev/workspace/kitesizer-new/src/main/resources/data/kitesizechart.txt";
 
+    private static final int WEIGHT_ROW = 0;
+
+    private static final int WIND_COL = 12;
+
     /**
      * @return All 144 possible kite sizes
      * @throws IOException 
      */
-    public List<KiteSizeRecommendation> getAllRecommendations() throws IOException {
+    public List<KiteSizeRecommendation> getAllRecommendations() {
         String[][] matrix = loadContentsIntoArray();
-        /*
-         * 
-         */
+        List<KiteSizeRecommendation> output = new ArrayList<KiteSizeRecommendation>();
+        
+        KiteSizeRecommendation recommendation = new KiteSizeRecommendation(matrix)
 
-        return new ArrayList<KiteSizeRecommendation>();
+        return output;
     }
 
     /**
      * @return create a two-dimensional array
      */
     protected String[][] loadContentsIntoArray() {
-        /*
-         * save file contents as a string variable
-         * create a one-dimensional array that just contains the lines in the file
-         * create a new two-dimensional array
-         * break each line of the file into an array
-         * store line array into the two-dimensional array
-         */
-
         String kiteChartData = loadFileContents();
         String[] rows = kiteChartData.split("\\n");
-        String firstRow = rows[0];
-        String[] firstRowCells = firstRow.split(" +");
+        String[][] output = new String[rows.length - 1][];
+        int index = 0;
+        for (String row : rows) {
+            if (!isAllWhitespace(row)) {
+                output[index] = row.split("\\s+");
+                index++;
+            }
+        }
+        return output;
+    }
 
-        return null;
+    /**
+     * @param row
+     * @return true if this row is entirely made of whitespace
+     */
+    private boolean isAllWhitespace(String row) {
+        return row.replaceAll("\\s", "").equals("");
     }
 
     /**
@@ -53,8 +62,8 @@ public class KiteSizeDAO {
      */
     protected String loadFileContents() {
         try {
-            byte[] txtFileSize = Files.readAllBytes(Paths.get(CHART_PATH));
-            return new String(txtFileSize, StandardCharsets.UTF_8);
+            byte[] txtFile = Files.readAllBytes(Paths.get(CHART_PATH));
+            return new String(txtFile, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
