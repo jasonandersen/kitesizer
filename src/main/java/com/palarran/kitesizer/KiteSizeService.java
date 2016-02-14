@@ -53,7 +53,7 @@ public class KiteSizeService {
                 return recommendation;
             }
         }
-        if (windSpeed < dao.getMinimumWindSpeed()) {
+        if (windSpeed <= dao.getMinimumWindSpeed()) {
             throw new BelowMinimumWindSpeedException();
         }
 

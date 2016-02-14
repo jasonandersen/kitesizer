@@ -1,15 +1,19 @@
 package com.palarran.kitesizer.cucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.palarran.kitesizer.BelowMinimumWindSpeedException;
 import com.palarran.kitesizer.KiteSizeService;
 
-import cucumber.api.PendingException;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 /**
  * Cucumber step definitions for BDD tests.
@@ -22,9 +26,17 @@ public class KiteSizeSteps {
 
     private int windSpeed;
 
-    private int returnedKiteSize;
+    private Integer returnedKiteSize;
 
     private KiteSizeService kiteSizeService = new KiteSizeService();
+
+    private Exception exception;
+
+    @Before
+    public void reset() {
+        exception = null;
+        returnedKiteSize = null;
+    }
 
     @Given("^I weigh (-?\\d+\\.?\\d+?) pounds$")
     public void iWeighPounds(double weightArg) {
@@ -38,17 +50,27 @@ public class KiteSizeSteps {
         this.windSpeed = windSpeedArg;
     }
 
+    @When("^I calculate kite size$")
+    public void iCalculateKiteSize() throws Throwable {
+        log.info("I calculate kite size.");
+        try {
+            returnedKiteSize = kiteSizeService.calculateKiteSize(weight, windSpeed);
+        } catch (Exception e) {
+            exception = e;
+        }
+    }
+
     @Then("^my kite size should be (\\d+)$")
     public void myKiteSizeShouldBe(int expectedKiteSize) throws Throwable {
         log.info("My kite size should be {}.", expectedKiteSize);
-        returnedKiteSize = kiteSizeService.calculateKiteSize(weight, windSpeed);
-        assertEquals(expectedKiteSize, returnedKiteSize);
+        assertNull(exception);
+        assertEquals(expectedKiteSize, (int) returnedKiteSize);
     }
 
     @Then("^the wind is too low to calculate a kite size$")
     public void theWindIsTooLowToCalculateAKiteSize() throws Throwable {
         log.info("The wind is too low to calculate a kite size.");
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertNotNull(exception);
+        assertEquals(BelowMinimumWindSpeedException.class, exception.getClass());
     }
 }
