@@ -51,6 +51,13 @@ public class KiteSizeDAO {
     }
 
     /**
+     * @return the minimum wind speed that a kite size can be calculated for
+     */
+    public int getMinimumWindSpeed() {
+        return MIN_WIND_SPEED;
+    }
+
+    /**
      * @param table
      * @param row
      * @param column

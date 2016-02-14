@@ -14,11 +14,11 @@ import org.junit.Test;
 
 public class KiteSizeServiceTest {
 
+    private KiteSizeService target = new KiteSizeService();
+
     @Test
     public void testFindWeight() {
-        KiteSizeService target = new KiteSizeService();
-        List<KiteSizeRecommendation> output;
-        output = target.findWeightRange(95);
+        List<KiteSizeRecommendation> output = target.findWeightRange(95);
         assertNotNull(output);
         assertFalse(output.isEmpty());
 
@@ -29,7 +29,6 @@ public class KiteSizeServiceTest {
 
     @Test
     public void testFindWind15Knots() {
-        KiteSizeService target = new KiteSizeService();
         KiteSizeRecommendation output = target.findWindRange(15, target.findWeightRange(95));
         assertNotNull(output);
         assertEquals(6, output.getKiteSize());
@@ -37,7 +36,6 @@ public class KiteSizeServiceTest {
 
     @Test
     public void testFindWind20Knots() {
-        KiteSizeService target = new KiteSizeService();
         KiteSizeRecommendation output = target.findWindRange(20, target.findWeightRange(95));
         assertNotNull(output);
         assertEquals(4, output.getKiteSize());
@@ -45,14 +43,17 @@ public class KiteSizeServiceTest {
 
     @Test
     public void testFindWeight125() {
-        KiteSizeService target = new KiteSizeService();
-        List<KiteSizeRecommendation> output;
-        output = target.findWeightRange(125);
+        List<KiteSizeRecommendation> output = target.findWeightRange(125);
         assertNotNull(output);
         assertFalse(output.isEmpty());
 
         KiteSizeRecommendation first = output.get(0);
         assertEquals(4, first.getKiteSize());
         assertEquals(12, output.size());
+    }
+
+    @Test(expected = BelowMinimumWindSpeedException.class)
+    public void testBelowMinimumWindSpeed() {
+        target.calculateKiteSize(95, 7);
     }
 }

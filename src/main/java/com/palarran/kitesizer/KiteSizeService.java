@@ -3,10 +3,17 @@ package com.palarran.kitesizer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Service that calculates kite sizes.
  */
 public class KiteSizeService {
+
+    private static Logger log = LoggerFactory.getLogger(KiteSizeService.class);
+
+    private KiteSizeDAO dao = new KiteSizeDAO();
 
     /**
      * @param weight
@@ -14,19 +21,9 @@ public class KiteSizeService {
      * @return a calculated kite size based on weight and wind speed
      */
     public int calculateKiteSize(double weight, int windSpeed) {
-
-        /*
-         * find the right weight range, price is right rules
-         * 
-         * find the right wind range, price is right rules
-         * 
-         * get the wind speed at that location
-         */
-
-        List<KiteSizeRecommendation> recommendations = new ArrayList<KiteSizeRecommendation>();
-        recommendations = findWeightRange(weight);
+        log.info("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
+        List<KiteSizeRecommendation> recommendations = findWeightRange(weight);
         KiteSizeRecommendation finalRecommendation = findWindRange(windSpeed, recommendations);
-
         return finalRecommendation.getKiteSize();
     }
 
@@ -35,14 +32,14 @@ public class KiteSizeService {
      * @return a list of kite size recommendations for my weight range
      */
     protected List<KiteSizeRecommendation> findWeightRange(double weight) {
-
-        /*
-         * 1. Fetch all 144 KiteSizeRecommendations
-         * 2. Find all KiteSizeRecommendations in the user's weight range
-         * 3. Return just the KiteSizeRecommendations for the user's weight range
-         */
-        return null;
-
+        List<KiteSizeRecommendation> allRecommendations = dao.getAllRecommendations();
+        List<KiteSizeRecommendation> windRecommendations = new ArrayList<KiteSizeRecommendation>();
+        for (KiteSizeRecommendation recommendation : allRecommendations) {
+            if (recommendation.weightMatches(weight)) {
+                windRecommendations.add(recommendation);
+            }
+        }
+        return windRecommendations;
     }
 
     /**
@@ -52,11 +49,18 @@ public class KiteSizeService {
      */
     protected KiteSizeRecommendation findWindRange(int windSpeed, List<KiteSizeRecommendation> recommendations) {
         for (KiteSizeRecommendation recommendation : recommendations) {
-            if (windSpeed <= recommendation.getUpperWindSpeed() && windSpeed > recommendation.getLowerWindSpeed()) {
+            if (recommendation.windMatches(windSpeed)) {
                 return recommendation;
             }
         }
-        return new KiteSizeRecommendation(999, 999, 999, 999, 999);
+        if (windSpeed < dao.getMinimumWindSpeed()) {
+            throw new BelowMinimumWindSpeedException();
+        }
+
+        /*
+         * this should be unreachable code based on the data in the kitesizechart table
+         */
+        throw new IllegalArgumentException("Cannot calculate kite size.");
     }
 
 }

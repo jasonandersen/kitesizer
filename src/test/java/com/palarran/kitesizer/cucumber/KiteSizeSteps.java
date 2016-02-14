@@ -27,23 +27,27 @@ public class KiteSizeSteps {
     private KiteSizeService kiteSizeService = new KiteSizeService();
 
     @Given("^I weigh (-?\\d+\\.?\\d+?) pounds$")
-    public void iWeighPounds(double weight) {
-        this.weight = weight;
+    public void iWeighPounds(double weightArg) {
+        log.info("I weigh {} pounds.", weightArg);
+        this.weight = weightArg;
     }
 
     @Given("^I normally kite in (\\d+) knots of wind$")
-    public void iNormallyKiteInKnotsOfWind(int windSpeed) throws Throwable {
-        this.windSpeed = windSpeed;
+    public void iNormallyKiteInKnotsOfWind(int windSpeedArg) throws Throwable {
+        log.info("I normally kite in {} knots of wind.", windSpeedArg);
+        this.windSpeed = windSpeedArg;
     }
 
     @Then("^my kite size should be (\\d+)$")
     public void myKiteSizeShouldBe(int expectedKiteSize) throws Throwable {
+        log.info("My kite size should be {}.", expectedKiteSize);
         returnedKiteSize = kiteSizeService.calculateKiteSize(weight, windSpeed);
         assertEquals(expectedKiteSize, returnedKiteSize);
     }
 
     @Then("^the wind is too low to calculate a kite size$")
     public void theWindIsTooLowToCalculateAKiteSize() throws Throwable {
+        log.info("The wind is too low to calculate a kite size.");
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }

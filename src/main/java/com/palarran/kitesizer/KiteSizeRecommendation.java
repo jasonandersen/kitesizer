@@ -58,4 +58,20 @@ public class KiteSizeRecommendation {
         return upperWeight;
     }
 
+    /**
+     * @param weight
+     * @return true if this weight value is inside the boundaries of this recommendation
+     */
+    public boolean weightMatches(double weight) {
+        return weight >= lowerWeight && weight < upperWeight;
+    }
+
+    /**
+     * @param windSpeed
+     * @return true if this wind value is inside the boundaries of this recommendation
+     */
+    public boolean windMatches(int windSpeed) {
+        return windSpeed >= lowerSpeed && windSpeed < upperSpeed;
+    }
+
 }
