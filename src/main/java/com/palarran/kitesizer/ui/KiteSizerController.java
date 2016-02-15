@@ -26,6 +26,15 @@ public class KiteSizerController {
 
     @FXML
     private void handleCalculateButtonClick() {
+        calculateKiteSize();
+    }
+
+    @FXML
+    private void handleOnKeyTyped() {
+        calculateKiteSize();
+    }
+
+    private void calculateKiteSize() {
         String weightValue = weight.getText();
         String windSpeedValue = windSpeed.getText();
         log.debug("User requested kite size calculation for {} pounds and {} knots of wind speed", weightValue, windSpeedValue);

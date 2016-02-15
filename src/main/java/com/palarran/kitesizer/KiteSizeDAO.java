@@ -22,6 +22,10 @@ public class KiteSizeDAO {
 
     private static final int MIN_WIND_SPEED = 8;
 
+    private static final int MIN_WEIGHT = 95;
+
+    private static final int MAX_WEIGHT = 300;
+
     private static final int MAX_WEIGHT_COL = 11;
 
     private static final int MAX_WIND_SPEED = 34;
@@ -50,6 +54,20 @@ public class KiteSizeDAO {
             }
         }
         return output;
+    }
+
+    /**
+     * @return the minimum amount of weight we can calculate kite size for
+     */
+    public int getMinimumWeight() {
+        return MIN_WEIGHT;
+    }
+
+    /**
+     * @return the maximum amount of weight we can calculate a kite size for
+     */
+    public double getMaximumWeight() {
+        return MAX_WEIGHT;
     }
 
     /**

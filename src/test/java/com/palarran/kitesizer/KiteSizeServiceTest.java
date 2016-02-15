@@ -62,4 +62,14 @@ public class KiteSizeServiceTest {
         target.calculateKiteSize(95, 35);
     }
 
+    @Test(expected = BelowMinimumWeightException.class)
+    public void testBelowMinimumWeight() {
+        target.calculateKiteSize(94, 15);
+    }
+
+    @Test(expected = AboveMaximumWeightException.class)
+    public void testAboveMaximumWeight() {
+        target.calculateKiteSize(300, 15);
+    }
+
 }

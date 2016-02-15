@@ -41,8 +41,8 @@
                   <Insets left="6.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="weight" GridPane.columnIndex="1" />
-            <TextField fx:id="windSpeed" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="weight" onKeyReleased="#handleOnKeyTyped" GridPane.columnIndex="1" />
+            <TextField fx:id="windSpeed" onKeyReleased="#handleOnKeyTyped" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#handleCalculateButtonClick" text="Calculate" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="6.0" top="10.0" />
@@ -52,7 +52,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="kiteSizeResponse" layoutX="14.0" layoutY="14.0" text="monkey">
+                        <Label fx:id="kiteSizeResponse" layoutX="14.0" layoutY="14.0">
                            <font>
                               <Font size="20.0" />
                            </font>

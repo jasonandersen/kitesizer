@@ -1,6 +1,8 @@
 package com.palarran.kitesizer.ui;
 
+import com.palarran.kitesizer.AboveMaximumWeightException;
 import com.palarran.kitesizer.AboveMaximumWindSpeedException;
+import com.palarran.kitesizer.BelowMinimumWeightException;
 import com.palarran.kitesizer.BelowMinimumWindSpeedException;
 import com.palarran.kitesizer.KiteSizeService;
 
@@ -55,7 +57,12 @@ public class KiteSizeRequest {
             out = "There is not enough wind to kite in, brah.";
         } catch (AboveMaximumWindSpeedException e) {
             out = "Too much wind - stay on the beach.";
+        } catch (BelowMinimumWeightException e) {
+            out = "Not enough weight, eat a sammich.";
+        } catch (AboveMaximumWeightException e) {
+            out = "Too much weight - skip a meal, son.";
         }
+
         return out;
     }
 

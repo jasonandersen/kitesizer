@@ -18,7 +18,6 @@
 # 8  9   10  12  13  14  15  16  18  19  20  21 | 12  14  22
 # 8  10  11  12  14  15  16  18  19  20  22  23 | 11  13  20
 # 9  10  12  13  15  16  17  19  20  22  23  24 | 10  12  19
-# 
 #
 Feature: Size a motherfucking kite
 
@@ -51,6 +50,18 @@ Feature: Size a motherfucking kite
         When I calculate kite size
         Then I see the message "Too much wind - stay on the beach."
         
+    Scenario: Below minimum weight
+        Given I weigh "94" pounds
+        And I normally kite in "10" knots of wind
+        When I calculate kite size
+        Then I see the message "Not enough weight, eat a sammich."
+        
+    Scenario: Above maximum weight
+        Given I weigh "300" pounds
+        And I normally kite in "20" knots of wind
+        When I calculate kite size
+        Then I see the message "Too much weight - skip a meal, son."
+
     Scenario: Didn't enter wind speed
         Given I weigh "95" pounds
         And I normally kite in "" knots of wind

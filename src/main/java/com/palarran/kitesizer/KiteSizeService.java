@@ -32,6 +32,12 @@ public class KiteSizeService {
      * @return a list of kite size recommendations for my weight range
      */
     protected List<KiteSizeRecommendation> findWeightRange(double weight) {
+        if (weight < dao.getMinimumWeight()) {
+            throw new BelowMinimumWeightException();
+        }
+        if (weight >= dao.getMaximumWeight()) {
+            throw new AboveMaximumWeightException();
+        }
         List<KiteSizeRecommendation> allRecommendations = dao.getAllRecommendations();
         List<KiteSizeRecommendation> windRecommendations = new ArrayList<KiteSizeRecommendation>();
         for (KiteSizeRecommendation recommendation : allRecommendations) {
