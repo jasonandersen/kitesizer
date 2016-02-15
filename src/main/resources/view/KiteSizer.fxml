@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -47,6 +48,19 @@
                   <Insets left="6.0" top="10.0" />
                </GridPane.margin>
             </Button>
+            <TitledPane animated="false" prefHeight="329.0" prefWidth="427.0" text="Recommended Kite Size" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="kiteSizeResponse" layoutX="128.0" layoutY="110.0">
+                           <font>
+                              <Font size="66.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
          </children>
       </GridPane>
    </center>

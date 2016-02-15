@@ -1,26 +1,27 @@
 Feature: Size a motherfucking kite
-    
-    Scenario: Size mah kite
-        Given I weigh 95 pounds
-        And I normally kite in 20 knots of wind
+
+    Scenario Outline: Size mah kite
+        Given I weigh <weight> pounds
+        And I normally kite in <windSpeed> knots of wind
         When I calculate kite size
-        Then my kite size should be 4
+        Then my kite size should be <kiteSize>
         
-    Scenario: Size mah kite
+        Examples:
+        | weight | windSpeed | kiteSize |
+        | 95     | 19        | 4        |
+        | 95     | 20        | 4        |
+        | 95     | 21        | 4        |
+        | 95     | 22        | 5        |
+
+    Scenario: Not enough wind
         Given I weigh 95 pounds
-        And I normally kite in 19 knots of wind
+        And I normally kite in 7 knots of wind
         When I calculate kite size
-        Then my kite size should be 4
+        Then I see the message "There is not enough wind to kite in, brah."
         
-    Scenario: Size mah kite
+    Scenario: Too much wind
         Given I weigh 95 pounds
-        And I normally kite in 21 knots of wind
+        And I normally kite in 35 knots of wind
         When I calculate kite size
-        Then my kite size should be 4
-        
-    Scenario: Size mah kite
-        Given I weigh 95 pounds
-        And I normally kite in 2 knots of wind
-        When I calculate kite size
-        Then the wind is too low to calculate a kite size
+        Then I see the message "Too much wind - stay on the beach."
         

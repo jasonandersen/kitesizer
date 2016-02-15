@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
- * Controller for the KiteSizer JavaFX UI.
+ * Controller for the KiteSizer JavaFX UI. This class handles all communication to and
+ * from the JavaFX controls.
  */
 public class KiteSizerController {
 
@@ -20,10 +22,15 @@ public class KiteSizerController {
     private TextField windSpeed;
 
     @FXML
+    private Label kiteSizeResponse;
+
+    @FXML
     private void handleCalculateButtonClick() {
         String weightValue = weight.getText();
         String windSpeedValue = windSpeed.getText();
-        log.warn("weight: {} windSpeed: {}", weightValue, windSpeedValue);
+        log.debug("User requested kite size calculation for {} pounds and {} knots of wind speed", weightValue, windSpeedValue);
+        KiteSizeRequest request = new KiteSizeRequest(weightValue, windSpeedValue);
+        kiteSizeResponse.setText(request.getResponseText());
     }
 
 }

@@ -24,6 +24,8 @@ public class KiteSizeDAO {
 
     private static final int MAX_WEIGHT_COL = 11;
 
+    private static final int MAX_WIND_SPEED = 34;
+
     private String[][] table;
 
     /**
@@ -55,6 +57,13 @@ public class KiteSizeDAO {
      */
     public int getMinimumWindSpeed() {
         return MIN_WIND_SPEED;
+    }
+
+    /**
+     * @return the maximum wind speed that a kite size can be calculated for
+     */
+    public int getMaximumWindSpeed() {
+        return MAX_WIND_SPEED;
     }
 
     /**

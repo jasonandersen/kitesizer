@@ -56,6 +56,9 @@ public class KiteSizeService {
         if (windSpeed <= dao.getMinimumWindSpeed()) {
             throw new BelowMinimumWindSpeedException();
         }
+        if (windSpeed >= dao.getMaximumWindSpeed()) {
+            throw new AboveMaximumWindSpeedException();
+        }
 
         /*
          * this should be unreachable code based on the data in the kitesizechart table

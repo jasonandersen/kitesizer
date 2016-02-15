@@ -1,14 +1,11 @@
 package com.palarran.kitesizer.cucumber;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.palarran.kitesizer.BelowMinimumWindSpeedException;
-import com.palarran.kitesizer.KiteSizeService;
+import com.palarran.kitesizer.ui.KiteSizeRequest;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -22,30 +19,25 @@ public class KiteSizeSteps {
 
     private static Logger log = LoggerFactory.getLogger(KiteSizeSteps.class);
 
-    private double weight;
+    private String weight;
 
-    private int windSpeed;
+    private String windSpeed;
 
-    private Integer returnedKiteSize;
-
-    private KiteSizeService kiteSizeService = new KiteSizeService();
-
-    private Exception exception;
+    private KiteSizeRequest request;
 
     @Before
     public void reset() {
-        exception = null;
-        returnedKiteSize = null;
+        request = null;
     }
 
     @Given("^I weigh (-?\\d+\\.?\\d+?) pounds$")
-    public void iWeighPounds(double weightArg) {
+    public void iWeighPounds(String weightArg) {
         log.info("I weigh {} pounds.", weightArg);
         this.weight = weightArg;
     }
 
     @Given("^I normally kite in (\\d+) knots of wind$")
-    public void iNormallyKiteInKnotsOfWind(int windSpeedArg) throws Throwable {
+    public void iNormallyKiteInKnotsOfWind(String windSpeedArg) {
         log.info("I normally kite in {} knots of wind.", windSpeedArg);
         this.windSpeed = windSpeedArg;
     }
@@ -53,24 +45,18 @@ public class KiteSizeSteps {
     @When("^I calculate kite size$")
     public void iCalculateKiteSize() throws Throwable {
         log.info("I calculate kite size.");
-        try {
-            returnedKiteSize = kiteSizeService.calculateKiteSize(weight, windSpeed);
-        } catch (Exception e) {
-            exception = e;
-        }
+        request = new KiteSizeRequest(weight, windSpeed);
     }
 
     @Then("^my kite size should be (\\d+)$")
-    public void myKiteSizeShouldBe(int expectedKiteSize) throws Throwable {
+    public void myKiteSizeShouldBe(Integer expectedKiteSize) {
         log.info("My kite size should be {}.", expectedKiteSize);
-        assertNull(exception);
-        assertEquals(expectedKiteSize, (int) returnedKiteSize);
+        assertEquals(expectedKiteSize, request.getKiteSize());
     }
 
-    @Then("^the wind is too low to calculate a kite size$")
-    public void theWindIsTooLowToCalculateAKiteSize() throws Throwable {
-        log.info("The wind is too low to calculate a kite size.");
-        assertNotNull(exception);
-        assertEquals(BelowMinimumWindSpeedException.class, exception.getClass());
+    @Then("^I see the message \"([^\"]*)\"$")
+    public void iSeeTheMessage(String message) {
+        assertEquals(message, request.getResponseText());
     }
+
 }

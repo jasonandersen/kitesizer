@@ -56,4 +56,10 @@ public class KiteSizeServiceTest {
     public void testBelowMinimumWindSpeed() {
         target.calculateKiteSize(95, 7);
     }
+
+    @Test(expected = AboveMaximumWindSpeedException.class)
+    public void testAboveMaximumWind() {
+        target.calculateKiteSize(95, 35);
+    }
+
 }
