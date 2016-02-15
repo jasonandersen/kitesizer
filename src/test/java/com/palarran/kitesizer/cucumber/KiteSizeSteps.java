@@ -30,13 +30,13 @@ public class KiteSizeSteps {
         request = null;
     }
 
-    @Given("^I weigh (-?\\d+\\.?\\d+?) pounds$")
+    @Given("^I weigh \"([^\"]*)\" pounds$")
     public void iWeighPounds(String weightArg) {
         log.info("I weigh {} pounds.", weightArg);
         this.weight = weightArg;
     }
 
-    @Given("^I normally kite in (\\d+) knots of wind$")
+    @Given("^I normally kite in \"([^\"]*)\" knots of wind$")
     public void iNormallyKiteInKnotsOfWind(String windSpeedArg) {
         log.info("I normally kite in {} knots of wind.", windSpeedArg);
         this.windSpeed = windSpeedArg;

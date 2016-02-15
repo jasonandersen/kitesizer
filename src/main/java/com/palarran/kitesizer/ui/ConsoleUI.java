@@ -13,6 +13,7 @@ public class ConsoleUI {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         System.out.print("Enter your weight in pounds: ");
         String weight = scanner.next();
         System.out.print("Enter your typical wind speed in knots:");

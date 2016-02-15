@@ -4,9 +4,11 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -16,16 +18,21 @@ public class KiteSizeDAOTest {
 
     private KiteSizeDAO dao = new KiteSizeDAO();
 
+    private List<KiteSizeRecommendation> allRecs;
+
+    @Before
+    public void loadAllRecommendations() {
+        allRecs = dao.getAllRecommendations();
+    }
+
     @Test
     public void testAllPermutations() {
-        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
         assertNotNull(allRecs);
         assertEquals(144, allRecs.size());
     }
 
     @Test
     public void testFirstRecommendation() {
-        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
         KiteSizeRecommendation first = allRecs.get(0);
         assertEquals(3, first.getKiteSize());
         assertEquals(95, first.getLowerWeight());
@@ -36,7 +43,6 @@ public class KiteSizeDAOTest {
 
     @Test
     public void testSecondRecommendation() {
-        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
         KiteSizeRecommendation second = allRecs.get(1);
         assertEquals(3, second.getKiteSize());
         assertEquals(95, second.getLowerWeight());
@@ -47,13 +53,40 @@ public class KiteSizeDAOTest {
 
     @Test
     public void testLastRecommendation() {
-        List<KiteSizeRecommendation> allRecs = dao.getAllRecommendations();
         KiteSizeRecommendation last = allRecs.get(143);
         assertEquals(24, last.getKiteSize());
         assertEquals(260, last.getLowerWeight());
         assertEquals(Integer.MAX_VALUE, last.getUpperWeight());
         assertEquals(10, last.getUpperWindSpeed());
         assertEquals(8, last.getLowerWindSpeed());
+    }
+
+    @Test
+    public void spotCheckRecommendations() {
+        validateRecommendationExists(95, 110, 19, 21, 4);
+    }
+
+    /**
+     * Validates that a recommendation exists with the following attributes. Will throw an assertion error
+     * if that recommendation is not found.
+     * @param lowerWeight
+     * @param upperWeight
+     * @param lowerWindSpeed
+     * @param upperWindSpeed
+     * @param size
+     */
+    private void validateRecommendationExists(int lowerWeight, int upperWeight, int lowerWindSpeed, int upperWindSpeed,
+            int size) {
+        for (KiteSizeRecommendation rec : allRecs) {
+            if (rec.getLowerWeight() == lowerWeight &&
+                    rec.getUpperWeight() == upperWeight &&
+                    rec.getLowerWindSpeed() == lowerWindSpeed &&
+                    rec.getUpperWindSpeed() == upperWindSpeed &&
+                    rec.getKiteSize() == size) {
+                return;
+            }
+        }
+        fail("No specified recommendation was found.");
     }
 
     @Test

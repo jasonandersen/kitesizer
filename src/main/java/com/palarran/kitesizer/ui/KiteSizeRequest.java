@@ -37,6 +37,14 @@ public class KiteSizeRequest {
      * @return the response to this request
      */
     private String initResponse() {
+        //Validate arguments
+        if (!isValidEntry(weightValue)) {
+            return "Enter a valid weight.";
+        }
+        if (!isValidEntry(windSpeedValue)) {
+            return "Enter a valid wind speed.";
+        }
+
         int weight = Integer.parseInt(weightValue);
         int windSpeed = Integer.parseInt(windSpeedValue);
         String out;
@@ -49,6 +57,19 @@ public class KiteSizeRequest {
             out = "Too much wind - stay on the beach.";
         }
         return out;
+    }
+
+    /**
+     * @param windSpeedValue2
+     * @return true if this value is numeric
+     */
+    private boolean isValidEntry(String arg) {
+        try {
+            Integer.parseInt(arg);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     /**
