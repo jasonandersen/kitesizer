@@ -2,9 +2,6 @@ package com.palarran.kitesizer.ui;
 
 import java.util.Scanner;
 
-import com.palarran.kitesizer.BelowMinimumWindSpeedException;
-import com.palarran.kitesizer.KiteSizeService;
-
 /**
  * Console based user interace.
  */
@@ -17,21 +14,14 @@ public class ConsoleUI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your weight in pounds: ");
-        int weight = scanner.nextInt();
-
+        String weight = scanner.next();
         System.out.print("Enter your typical wind speed in knots:");
-        int windSpeed = scanner.nextInt();
+        String windSpeed = scanner.next();
 
-        KiteSizeService service = new KiteSizeService();
+        KiteSizeRequest request = new KiteSizeRequest(weight, windSpeed);
+        System.out.println(request.getResponseText());
 
-        try {
-            int kiteSize = service.calculateKiteSize(weight, windSpeed);
-            System.out.println(String.format("Your recommended kite size is %d square meters.", kiteSize));
-        } catch (BelowMinimumWindSpeedException e) {
-            System.out.println("The wind speed is too low to kite board.");
-        } finally {
-            scanner.close();
-        }
+        scanner.close();
 
     }
 
