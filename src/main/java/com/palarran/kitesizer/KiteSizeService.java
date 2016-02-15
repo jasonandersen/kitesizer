@@ -21,7 +21,7 @@ public class KiteSizeService {
      * @return a calculated kite size based on weight and wind speed
      */
     public int calculateKiteSize(double weight, int windSpeed) {
-        log.info("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
+        log.debug("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
         List<KiteSizeRecommendation> recommendations = findWeightRange(weight);
         KiteSizeRecommendation finalRecommendation = findWindRange(windSpeed, recommendations);
         return finalRecommendation.getKiteSize();
