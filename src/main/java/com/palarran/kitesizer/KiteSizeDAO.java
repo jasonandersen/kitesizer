@@ -21,21 +21,21 @@ public class KiteSizeDAO {
 
     private static final String CHART_PATH = "/data/kitesizechart.txt";
 
-    private static final int WEIGHT_ROW = 0;
-
-    private static final int WIND_COL = 12;
-
-    private static final int MAX_ROW = 12;
-
-    private static final int MIN_WIND_SPEED = 8;
-
     private static final int MIN_WEIGHT = 95;
 
     private static final int MAX_WEIGHT = 300;
 
-    private static final int MAX_WEIGHT_COL = 11;
+    private static final int MIN_WIND_SPEED = 8;
 
     private static final int MAX_WIND_SPEED = 34;
+
+    private static final int WEIGHT_ROW = 0;
+
+    private static final int MAX_ROW = 12;
+
+    private static final int WIND_COL = 12;
+
+    private static final int MAX_WEIGHT_COL = 11;
 
     private String[][] table;
 
