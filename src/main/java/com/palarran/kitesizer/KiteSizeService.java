@@ -22,9 +22,30 @@ public class KiteSizeService {
      */
     public int calculateKiteSize(double weight, double windSpeed) {
         log.debug("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
+        validateArguments(weight, windSpeed);
         List<KiteSizeRecommendation> recommendations = findWeightRange(weight);
         KiteSizeRecommendation finalRecommendation = findWindRange(windSpeed, recommendations);
         return finalRecommendation.getKiteSize();
+    }
+
+    /**
+     * Throws an exception if either argument is outside of the thresholds.
+     * @param weight
+     * @param windSpeed
+     */
+    private void validateArguments(double weight, double windSpeed) {
+        if (weight < dao.getMinimumWeight()) {
+            throw new BelowMinimumWeightException();
+        }
+        if (weight >= dao.getMaximumWeight()) {
+            throw new AboveMaximumWeightException();
+        }
+        if (windSpeed < dao.getMinimumWindSpeed()) {
+            throw new BelowMinimumWindSpeedException();
+        }
+        if (windSpeed >= dao.getMaximumWindSpeed()) {
+            throw new AboveMaximumWindSpeedException();
+        }
     }
 
     /**
@@ -32,12 +53,6 @@ public class KiteSizeService {
      * @return a list of kite size recommendations for my weight range
      */
     protected List<KiteSizeRecommendation> findWeightRange(double weight) {
-        if (weight < dao.getMinimumWeight()) {
-            throw new BelowMinimumWeightException();
-        }
-        if (weight >= dao.getMaximumWeight()) {
-            throw new AboveMaximumWeightException();
-        }
         List<KiteSizeRecommendation> allRecommendations = dao.getAllRecommendations();
         List<KiteSizeRecommendation> windRecommendations = new ArrayList<KiteSizeRecommendation>();
         for (KiteSizeRecommendation recommendation : allRecommendations) {
@@ -58,12 +73,6 @@ public class KiteSizeService {
             if (recommendation.windMatches(windSpeed)) {
                 return recommendation;
             }
-        }
-        if (windSpeed <= dao.getMinimumWindSpeed()) {
-            throw new BelowMinimumWindSpeedException();
-        }
-        if (windSpeed >= dao.getMaximumWindSpeed()) {
-            throw new AboveMaximumWindSpeedException();
         }
 
         /*
