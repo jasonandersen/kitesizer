@@ -93,4 +93,11 @@ public class KiteSizeRequest {
         return kiteSize;
     }
 
+    /**
+     * @return true if this request is valid and was able to calculate a kite size
+     */
+    public boolean isValid() {
+        return kiteSize != null;
+    }
+
 }

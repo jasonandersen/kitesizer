@@ -1,6 +1,5 @@
 package com.palarran.kitesizer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +14,8 @@ public class KiteSizeService {
 
     private KiteSizeDAO dao = new KiteSizeDAO();
 
+    private List<KiteSizeRecommendation> allRecommendations;
+
     /**
      * @param weight
      * @param windSpeed
@@ -23,9 +24,26 @@ public class KiteSizeService {
     public int calculateKiteSize(double weight, double windSpeed) {
         log.debug("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
         validateArguments(weight, windSpeed);
-        List<KiteSizeRecommendation> recommendations = findWeightRange(weight);
-        KiteSizeRecommendation finalRecommendation = findWindRange(windSpeed, recommendations);
-        return finalRecommendation.getKiteSize();
+        for (KiteSizeRecommendation recommendation : getAllRecommendations()) {
+            if (recommendation.weightMatches(weight) && recommendation.windMatches(windSpeed)) {
+                return recommendation.getKiteSize();
+            }
+        }
+        /*
+         * this should be unreachable code based on the data in the kitesizechart table and the
+         * guard code put in place in validateArguments() method
+         */
+        throw new IllegalArgumentException("Cannot calculate kite size.");
+    }
+
+    /**
+     * @return a lazy loaded list of all kite size recommendations
+     */
+    private List<KiteSizeRecommendation> getAllRecommendations() {
+        if (allRecommendations == null) {
+            allRecommendations = dao.getAllRecommendations();
+        }
+        return allRecommendations;
     }
 
     /**
@@ -46,39 +64,6 @@ public class KiteSizeService {
         if (windSpeed >= dao.getMaximumWindSpeed()) {
             throw new AboveMaximumWindSpeedException();
         }
-    }
-
-    /**
-     * @param weight
-     * @return a list of kite size recommendations for my weight range
-     */
-    protected List<KiteSizeRecommendation> findWeightRange(double weight) {
-        List<KiteSizeRecommendation> allRecommendations = dao.getAllRecommendations();
-        List<KiteSizeRecommendation> windRecommendations = new ArrayList<KiteSizeRecommendation>();
-        for (KiteSizeRecommendation recommendation : allRecommendations) {
-            if (recommendation.weightMatches(weight)) {
-                windRecommendations.add(recommendation);
-            }
-        }
-        return windRecommendations;
-    }
-
-    /**
-     * @param windSpeed
-     * @param recommendations
-     * @return a single recommendation based on wind range
-     */
-    protected KiteSizeRecommendation findWindRange(double windSpeed, List<KiteSizeRecommendation> recommendations) {
-        for (KiteSizeRecommendation recommendation : recommendations) {
-            if (recommendation.windMatches(windSpeed)) {
-                return recommendation;
-            }
-        }
-
-        /*
-         * this should be unreachable code based on the data in the kitesizechart table
-         */
-        throw new IllegalArgumentException("Cannot calculate kite size.");
     }
 
 }

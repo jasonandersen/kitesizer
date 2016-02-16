@@ -6,32 +6,38 @@ import org.slf4j.LoggerFactory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Controller for the KiteSizer JavaFX UI. This class handles all communication to and
- * from the JavaFX controls.
+ * from the JavaFX UI controls.
  */
 public class KiteSizerController {
 
     private static Logger log = LoggerFactory.getLogger(KiteSizerController.class);
 
-    @FXML
-    private TextField weight;
+    private String windSpeedPreviousValue;
 
     private String weightPreviousValue;
 
     @FXML
-    private TextField windSpeed;
+    private TextField weight;
 
-    private String windSpeedPreviousValue;
+    @FXML
+    private TextField windSpeed;
 
     @FXML
     private Label kiteSizeResponse;
 
     @FXML
-    private void handleCalculateButtonClick() {
-        calculateKiteSize();
-    }
+    private Label kiteSize;
+
+    @FXML
+    private Label squareMeters;
+
+    @FXML
+    private Circle kiteSizeCircle;
 
     @FXML
     private void handleOnKeyTyped() {
@@ -49,9 +55,36 @@ public class KiteSizerController {
             log.debug("User requested kite size calculation for {} pounds and {} knots of wind speed", weightValue,
                     windSpeedValue);
             KiteSizeRequest request = new KiteSizeRequest(weightValue, windSpeedValue);
-            kiteSizeResponse.setText(request.getResponseText());
+            if (request.isValid()) {
+                displayValidResponse(request);
+            } else {
+                displayInvalidResponse(request);
+            }
             updateTextFieldsPreviousValues();
         }
+    }
+
+    /**
+     * Displays an invalid kite size request.
+     * @param request
+     */
+    private void displayInvalidResponse(KiteSizeRequest request) {
+        kiteSizeCircle.setVisible(false);
+        kiteSize.setText("");
+        squareMeters.setVisible(false);
+        kiteSizeResponse.setText(request.getResponseText());
+    }
+
+    /**
+     * Displays a valid kite size response.
+     * @param request
+     */
+    private void displayValidResponse(KiteSizeRequest request) {
+        kiteSizeCircle.setVisible(true);
+        kiteSize.setText(request.getKiteSize().toString());
+        squareMeters.setVisible(true);
+        kiteSizeResponse.setText("Your kite size is:");
+        kiteSizeResponse.setTextAlignment(TextAlignment.CENTER);
     }
 
     /**
