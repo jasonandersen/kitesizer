@@ -37,6 +37,7 @@ Feature: Size a motherfucking kite
         | 230    | 33        | 7        |
         | 230    | 21        | 8        |
         | 230    | 8         | 22       |
+        | 95.0   | 19.0      | 4        |
 
     Scenario: Not enough wind
         Given I weigh "95" pounds

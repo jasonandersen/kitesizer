@@ -1,18 +1,25 @@
 package com.palarran.kitesizer;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Loads kite size recommendations from the kitesizechart.txt file.
  */
 public class KiteSizeDAO {
 
-    private static final String CHART_PATH = "/Users/jason/dev/workspace/kitesizer-new/src/main/resources/data/kitesizechart.txt";
+    private static Logger log = LoggerFactory.getLogger(KiteSizeDAO.class);
+
+    private static final String CHART_PATH = "/data/kitesizechart.txt";
 
     private static final int WEIGHT_ROW = 0;
 
@@ -160,7 +167,7 @@ public class KiteSizeDAO {
      * @return true if this row is entirely made of whitespace
      */
     private boolean isAllWhitespace(String row) {
-        return row.replaceAll("\\s", "").equals("");
+        return row.replaceAll("\\s", "").isEmpty();
     }
 
     /**
@@ -168,10 +175,14 @@ public class KiteSizeDAO {
      * @throws IOException 
      */
     protected String loadFileContents() {
+        log.debug("reading kitesizechart.txt");
         try {
-            byte[] txtFile = Files.readAllBytes(Paths.get(CHART_PATH));
+            URL fileUrl = KiteSizeDAO.class.getResource(CHART_PATH);
+            byte[] txtFile = Files.readAllBytes(Paths.get(fileUrl.toURI()));
             return new String(txtFile, StandardCharsets.UTF_8);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
 

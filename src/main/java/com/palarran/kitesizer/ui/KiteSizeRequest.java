@@ -47,8 +47,8 @@ public class KiteSizeRequest {
             return "Enter a valid wind speed.";
         }
 
-        int weight = Integer.parseInt(weightValue);
-        int windSpeed = Integer.parseInt(windSpeedValue);
+        double weight = Double.parseDouble(weightValue);
+        double windSpeed = Double.parseDouble(windSpeedValue);
         String out;
         try {
             kiteSize = service.calculateKiteSize(weight, windSpeed);
@@ -72,7 +72,7 @@ public class KiteSizeRequest {
      */
     private boolean isValidEntry(String arg) {
         try {
-            Integer.parseInt(arg);
+            Double.parseDouble(arg);
             return true;
         } catch (NumberFormatException e) {
             return false;

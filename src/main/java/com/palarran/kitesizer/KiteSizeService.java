@@ -20,7 +20,7 @@ public class KiteSizeService {
      * @param windSpeed
      * @return a calculated kite size based on weight and wind speed
      */
-    public int calculateKiteSize(double weight, int windSpeed) {
+    public int calculateKiteSize(double weight, double windSpeed) {
         log.debug("Calculating kite size for weight of {} and wind speed of {}.", weight, windSpeed);
         List<KiteSizeRecommendation> recommendations = findWeightRange(weight);
         KiteSizeRecommendation finalRecommendation = findWindRange(windSpeed, recommendations);
@@ -53,7 +53,7 @@ public class KiteSizeService {
      * @param recommendations
      * @return a single recommendation based on wind range
      */
-    protected KiteSizeRecommendation findWindRange(int windSpeed, List<KiteSizeRecommendation> recommendations) {
+    protected KiteSizeRecommendation findWindRange(double windSpeed, List<KiteSizeRecommendation> recommendations) {
         for (KiteSizeRecommendation recommendation : recommendations) {
             if (recommendation.windMatches(windSpeed)) {
                 return recommendation;

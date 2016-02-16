@@ -70,7 +70,7 @@ public class KiteSizeRecommendation {
      * @param windSpeed
      * @return true if this wind value is inside the boundaries of this recommendation
      */
-    public boolean windMatches(int windSpeed) {
+    public boolean windMatches(double windSpeed) {
         return windSpeed >= lowerWindSpeed && windSpeed < upperWindSpeed;
     }
 
